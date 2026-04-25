@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Runful Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page auth-page">
+      <header class="header">
+        <h1 class="title">Runful</h1>
+      </header>
+
+      <main class="auth-main">
+        <section class="auth-panel" aria-label="Account login">
+          <form id="auth-request-form" class="auth-row">
+            <label class="auth-field">
+              <span class="label">Email</span>
+              <input
+                type="email"
+                id="auth-email"
+                name="email"
+                autocomplete="email"
+                placeholder="you@example.com"
+                required
+              />
+            </label>
+            <button type="submit" class="btn btn-primary auth-btn">
+              Send login link
+            </button>
+          </form>
+
+          <div class="auth-meta">
+            <span id="auth-status" class="auth-status is-muted">Signed out</span>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      window.RUNJOURNAL_SUPABASE_URL = "https://eivjqwkqkaryymezesow.supabase.co";
+      window.RUNJOURNAL_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpdmpxd2txa2FyeXltZXplc293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTQ1MzIsImV4cCI6MjA5MjU5MDUzMn0.CBKzOCsC1wpDRPzdYzR0Bu6LWhB7hvS2BJUJM5Ws7Qg";
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>

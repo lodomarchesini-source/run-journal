@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Run-Journal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <div class="header-top">
+          <div class="title-row">
+            <h1 id="page-title" class="title">Run-Journal</h1>
+            <button
+              type="button"
+              id="edit-page-title"
+              class="edit-title-icon-btn"
+              aria-label="Edit page title"
+              title="Edit page title"
+            >
+              <svg
+                class="edit-title-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 20h4l10-10a2 2 0 0 0-4-4L4 16v4z"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12.5 7.5l4 4"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="header-actions">
+            <button type="button" id="auth-signout" class="btn btn-ghost auth-signout">
+              Sign out
+            </button>
+          </div>
+        </div>
+        <span id="account-email" class="auth-status is-muted" hidden></span>
+        <section class="totals-row" aria-label="Totals across all runs">
+          <div class="totals-item totals-item--runs">
+            <span class="totals-label">Runs</span>
+            <span id="total-runs" class="totals-value">0</span>
+            <div
+              id="runs-time-breakdown"
+              class="runs-time-tip"
+              role="tooltip"
+              aria-hidden="true"
+            ></div>
+          </div>
+          <div class="totals-item">
+            <span class="totals-label">Total elapsed time</span>
+            <span id="total-elapsed" class="totals-value">—</span>
+          </div>
+          <div class="totals-item">
+            <span class="totals-label">Total distance</span>
+            <span id="total-distance" class="totals-value">—</span>
+          </div>
+        </section>
+      </header>
+
+      <main class="main-runs">
+        <div class="runs-carousel-viewport" aria-hidden="false">
+          <ul id="runs-list" class="runs-carousel" aria-label="Runs and new run"></ul>
+        </div>
+      </main>
+    </div>
+
+    <div
+      id="run-modal"
+      class="modal"
+      aria-hidden="true"
+      role="presentation"
+    >
+      <button type="button" class="modal-backdrop" id="modal-backdrop" tabindex="-1" aria-label="Close dialog"></button>
+      <div
+        class="modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="run-modal-title"
+      >
+        <div class="modal-header">
+          <h2 id="run-modal-title" class="modal-title">New run</h2>
+          <button type="button" class="modal-close" id="modal-close" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form id="run-form" class="modal-form">
+          <div class="row">
+            <label class="field">
+              <span class="label">Date</span>
+              <input type="date" name="date" id="run-date" required />
+            </label>
+            <label class="field grow">
+              <span class="label">Distance</span>
+              <div class="inline">
+                <input type="number" name="distance" id="run-distance" min="0" step="any" placeholder="0" required />
+                <select name="unit" id="run-unit" aria-label="Distance unit">
+                  <option value="km">km</option>
+                  <option value="mi">mi</option>
+                </select>
+              </div>
+            </label>
+            <label class="field duration-field">
+              <span class="label">Time</span>
+              <input
+                type="text"
+                name="durationHMS"
+                id="run-duration"
+                inputmode="numeric"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="00:00:00"
+                aria-describedby="duration-hms-hint"
+              />
+              <span id="duration-hms-hint" class="field-hint">Hours : minutes : seconds</span>
+            </label>
+          </div>
+          <div class="field time-of-day-field" role="group" aria-labelledby="time-of-day-label">
+            <div id="time-of-day-label" class="label">When</div>
+            <div class="time-of-day-options">
+              <label class="radio-label">
+                <input type="radio" name="timeOfDay" value="morning" />
+                Morning run
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="timeOfDay" value="day" checked />
+                Day run
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="timeOfDay" value="evening" />
+                Evening run
+              </label>
+            </div>
+          </div>
+          <div class="field felt-field" role="group" aria-labelledby="run-felt-label">
+            <div id="run-felt-label" class="label">How I felt</div>
+            <div class="time-of-day-options">
+              <label class="radio-label">
+                <input type="radio" name="felt" value="bad" />
+                Bad
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="felt" value="neutral" checked />
+                Neutral
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="felt" value="good" />
+                Good
+              </label>
+            </div>
+          </div>
+          <label class="field">
+            <span class="label">Notes <span class="optional">optional</span></span>
+            <textarea name="notes" id="run-notes" rows="3" placeholder="Route, how it felt…"></textarea>
+          </label>
+          <div class="actions modal-actions">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-ghost" id="run-cancel">Cancel</button>
+          </div>
+          <button type="button" class="btn modal-delete" id="run-delete" hidden>
+            Delete run
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      window.RUNJOURNAL_SUPABASE_URL = "https://eivjqwkqkaryymezesow.supabase.co";
+      window.RUNJOURNAL_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpdmpxd2txa2FyeXltZXplc293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTQ1MzIsImV4cCI6MjA5MjU5MDUzMn0.CBKzOCsC1wpDRPzdYzR0Bu6LWhB7hvS2BJUJM5Ws7Qg";
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
