@@ -250,7 +250,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4.8px;
-  flex: 1 1 256px;
+  flex: 0 0 auto;
 }
 
 .auth-btn {
