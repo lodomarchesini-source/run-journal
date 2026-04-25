@@ -163,7 +163,7 @@ body {
 }
 
 .journal-page .title {
-  font-size: 48px /* logged-in page title */
+  font-size: 48px; /* logged-in page title */
   font-weight: 450;
 }
 .title {
