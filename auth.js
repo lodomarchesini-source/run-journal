@@ -3,9 +3,11 @@
   const SUPABASE_ANON_KEY = window.RUNJOURNAL_SUPABASE_ANON_KEY || "";
 
   const els = {
+    authEntryActions: document.getElementById("auth-entry-actions"),
     authRequestForm: document.getElementById("auth-request-form"),
     authEmail: document.getElementById("auth-email"),
     authStatus: document.getElementById("auth-status"),
+    authOpenButtons: Array.from(document.querySelectorAll("[data-auth-open]")),
   };
 
   function setAuthStatus(message, kind) {
@@ -26,6 +28,21 @@
 
   function redirectToJournal() {
     window.location.href = nextPath();
+  }
+
+  function openAuthFlow() {
+    if (!els.authRequestForm) return;
+    if (els.authEntryActions) {
+      els.authEntryActions.hidden = true;
+      els.authEntryActions.style.display = "none";
+    }
+    els.authRequestForm.hidden = false;
+    els.authRequestForm.style.display = "flex";
+    if (els.authEmail) els.authEmail.focus();
+  }
+
+  for (const btn of els.authOpenButtons) {
+    btn.addEventListener("click", openAuthFlow);
   }
 
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {

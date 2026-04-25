@@ -6,8 +6,6 @@
 
     <title>Runnny</title>
 
-    <title>Runnny</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,12 +18,20 @@
     <div class="page auth-page">
       <header class="header">
         <h1 class="title">Runnny</h1>
-        <p class="auth-intro-text">Track your runs, progress, and consistency in one place.</p>
+        <p class="auth-intro-text">Your watch knows your pace, but not what your thinking. Runnny is a running journal designed for the runner who wants to understand.</p>
       </header>
 
       <main class="auth-main">
         <section class="auth-panel" aria-label="Account login">
-          <form id="auth-request-form" class="auth-row">
+          <div id="auth-entry-actions" class="auth-entry-actions">
+            <button type="button" class="btn btn-primary auth-entry-btn auth-entry-btn--start" data-auth-open>
+              Start writing
+            </button>
+            <button type="button" class="btn auth-entry-btn auth-entry-btn--login" data-auth-open>
+              Log in
+            </button>
+          </div>
+          <form id="auth-request-form" class="auth-row" hidden>
             <label class="auth-field">
               <span class="label">Email</span>
               <input
