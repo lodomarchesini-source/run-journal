@@ -1,11 +1,12 @@
 :root {
   --bg: #fafafa;
   --surface: #fafafa;
-  --text: #171717;
+  --neutral-1: #171717;
+  --neutral-2: #343434;
   --muted: #737373;
   --border: #e8e8e8;
   --accent: #181818;
-  --accent-hover: #030303;
+  --accent-hover: #3e3c3c;
   --danger: #b91c1c;
   --radius: 8px;
   --page-gutter: 40px;
@@ -116,9 +117,9 @@ body {
 
 .auth-intro-text {
   margin: 12px 0 0;
-  max-width: 672px;
+  max-width: 560px;
   font-size: 24px;
-  color: var(--text);
+  color: var(--neutral-2);
 }
 
 .auth-entry-actions {
@@ -159,7 +160,7 @@ body {
 }
 .auth-page .title {
   font-size: 48px;   /* auth page title */
-  font-weight: 600;
+  font-weight: 450;
 }
 
 .journal-page .title {
