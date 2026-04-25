@@ -288,12 +288,16 @@ body {
 }
 
 .auth-signout {
-  border: none;
-  outline: none;
+  border: 1px solid var(--border);
   background: transparent;
-  padding-top: 6.4px;
-  padding-bottom: 6.4px;
+  color: var(--text);
+  padding: 0 20px;
+  height: 48px;
   margin-left: auto;
+}
+
+.auth-signout:hover {
+  background: rgba(23, 23, 23, 0.03);
 }
 
 .auth-signout:focus {
