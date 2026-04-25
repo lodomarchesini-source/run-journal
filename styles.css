@@ -238,7 +238,7 @@ body {
 .auth-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 9.6px;
+  gap: 12px;
   align-items: flex-end;
 }
 
@@ -261,6 +261,7 @@ body {
 
 .auth-field input[type="email"] {
   height: 48px;
+  width: 300px;
 }
 
 .auth-meta {
