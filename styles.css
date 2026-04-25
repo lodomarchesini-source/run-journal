@@ -4,8 +4,8 @@
   --text: #171717;
   --muted: #737373;
   --border: #e8e8e8;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
+  --accent: #181818;
+  --accent-hover: #030303;
   --danger: #b91c1c;
   --radius: 8px;
   --page-gutter: 40px;
@@ -46,7 +46,7 @@
   --modal-field-font-size: 16px;
 
   /* Top of page — the "Runs" heading in the header (index.html h1.title) */
-  --page-title-font-size: 28px;
+  --page-title-font-size: 80px;
 
   /* Run card — the date line at top of each card (e.g. April 18th, 2026) */
   --run-card-title-font-size: 12px;
@@ -118,7 +118,15 @@ body {
   flex: 1;
   min-height: 0;
 }
+.auth-page .title {
+  font-size: 48px;   /* auth page title */
+  font-weight: 700;
+}
 
+.journal-page .title {
+  font-size: var(--page-title-font-size); /* logged-in page title */
+  font-weight: 450;
+}
 .title {
   margin: 0;
   font-size: var(--page-title-font-size);
@@ -178,10 +186,10 @@ body {
 
 .auth-panel {
   margin-top: 0.9rem;
-  padding: 0.8rem 0.95rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -205,6 +213,11 @@ body {
 .auth-btn {
   flex: 0 0 auto;
   min-width: 8rem;
+  height: 48px;
+}
+
+.auth-field input[type="email"] {
+  height: 48px;
 }
 
 .auth-meta {
@@ -767,6 +780,7 @@ input[type="radio"] {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="date"],
 input[type="number"],
 textarea,
@@ -838,11 +852,14 @@ select:focus {
   border-radius: 8px;
   cursor: pointer;
   border: 1px solid transparent;
+  height: 48px;
+  padding: 20px
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .btn-primary {
   background: var(--accent);
+  border-radius: 12px;
   color: #fff;
 }
 
