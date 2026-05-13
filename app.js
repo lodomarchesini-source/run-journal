@@ -19,18 +19,8 @@
     return t === "morning" || t === "day" || t === "evening" ? t : "day";
   }
 
-  const RUN_CARD_BG_WASH =
-    "linear-gradient(180deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.22) 100%)";
-
-  function setRunCardBackground(el, whenKey) {
-    const key =
-      whenKey === "morning" || whenKey === "evening" ? whenKey : "day";
-    try {
-      const svgUrl = new URL(`card-bg/${key}.svg`, window.location.href).href;
-      el.style.backgroundImage = `${RUN_CARD_BG_WASH}, url("${svgUrl}")`;
-    } catch (_) {
-      /* opaque origin / invalid base — leave CSS fallback */
-    }
+  function runCardBgFile(whenKey) {
+    return whenKey === "morning" || whenKey === "evening" ? whenKey : "day";
   }
 
   const els = {
@@ -533,8 +523,8 @@
     for (const r of runs) {
       const li = document.createElement("li");
       const whenKey = timeOfDayKey(r);
+      const bgFile = runCardBgFile(whenKey);
       li.className = `carousel-slide item run-card-tod--${whenKey}`;
-      setRunCardBackground(li, whenKey);
       const dist = r.distance != null ? Number(r.distance) : 0;
       const unit = r.unit === "mi" ? "mi" : "km";
       const dur =
@@ -572,11 +562,14 @@
       );
 
       li.innerHTML = `
-        <div class="item-header">
-          <h3 class="item-title"></h3>
+        <img class="run-card-bg" src="card-bg/${bgFile}.svg" alt="" width="360" height="640" decoding="async" />
+        <div class="run-card-content">
+          <div class="item-header">
+            <h3 class="item-title"></h3>
+          </div>
+          <p class="item-body run-notes-body" hidden></p>
+          ${statsHtml}
         </div>
-        <p class="item-body run-notes-body" hidden></p>
-        ${statsHtml}
       `;
       li.querySelector(".item-title").textContent = formatRunDate(r.date);
 
