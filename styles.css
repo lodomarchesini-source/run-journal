@@ -12,6 +12,8 @@
   --page-gutter: 40px;
   --page-margin: 40px;
   --view-max-height: 1024px;
+  --runs-grid-columns: 4;
+  --runs-grid-gap: 12px;
 
   /*
    * Run card — Distance / Time / Pace row (labels + values)
@@ -427,6 +429,9 @@ body {
   flex-direction: column;
   margin-inline: calc(-1 * var(--page-gutter));
   padding-inline: var(--page-gutter);
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .runs-carousel-viewport[hidden] {
@@ -434,47 +439,29 @@ body {
 }
 
 .runs-carousel {
-  flex: 1;
-  min-height: 0;
-  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--runs-grid-columns), minmax(0, 1fr));
+  gap: var(--runs-grid-gap);
+  align-content: start;
   width: 100%;
   max-width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  gap: 12px;
+  min-width: 0;
   list-style: none;
   margin: 0;
   padding: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--page-gutter);
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.runs-carousel::-webkit-scrollbar {
-  display: none;
 }
 
 .runs-carousel .carousel-slide {
   container: run-card / inline-size;
-  flex: 0 0 auto;
-  scroll-snap-align: center;
   box-sizing: border-box;
-  height: 100%;
-  max-height: 100%;
-  width: auto;
+  align-self: start;
+  width: 100%;
+  min-width: 0;
   aspect-ratio: 9 / 16;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding-top: clamp(8.8px, 2.5vmin, 16px);
-  padding-left: clamp(8.8px, 2.5vmin, 16px);
-  padding-right: clamp(8.8px, 2.5vmin, 16px);
-  padding-bottom: 24px;
+  padding: 0;
   border-radius: calc(var(--radius) + 2px);
   cursor: pointer;
   user-select: none;
@@ -495,11 +482,12 @@ body {
   outline-offset: 3px;
 }
 
-/* Trailing “New run” tile — same 9:16 as run cards */
+/* Trailing “New run” tile — same 9:16 cell as run cards */
 .runs-carousel .carousel-slide--new {
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding: 20px;
   border: 1px dashed var(--border);
   background: var(--surface);
 }
