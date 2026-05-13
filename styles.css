@@ -924,9 +924,9 @@ select:focus {
 .runs-carousel .carousel-slide.item {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: none;
   border-radius: var(--radius);
-  padding: 14.4px 15.2px 12px;
+  padding: 40px;
   background-color: var(--surface);
 }
 
@@ -948,6 +948,14 @@ select:focus {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  color: #fff;
+}
+
+.runs-carousel .carousel-slide.item .item-title,
+.runs-carousel .carousel-slide.item .run-notes-body,
+.runs-carousel .carousel-slide.item .run-stat-label,
+.runs-carousel .carousel-slide.item .run-stat-value {
+  color: #fff;
 }
 
 .item-header {
