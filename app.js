@@ -516,6 +516,12 @@
 
     for (const r of runs) {
       const li = document.createElement("li");
+      const tod =
+        r.timeOfDay === "morning" ||
+        r.timeOfDay === "day" ||
+        r.timeOfDay === "evening"
+          ? r.timeOfDay
+          : "day";
       li.className = `carousel-slide item run-card-tod--${tod}`;
       const dist = r.distance != null ? Number(r.distance) : 0;
       const unit = r.unit === "mi" ? "mi" : "km";
@@ -525,13 +531,6 @@
           : null;
       const km = toKm(dist, unit);
       const pace = pacePerKm(km, dur);
-
-      const tod =
-        r.timeOfDay === "morning" ||
-        r.timeOfDay === "day" ||
-        r.timeOfDay === "evening"
-          ? r.timeOfDay
-          : "day";
 
       const statsHtml = `
         <div class="run-stats">
