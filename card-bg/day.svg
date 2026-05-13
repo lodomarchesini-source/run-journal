@@ -1,10 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 640" preserveAspectRatio="none" aria-hidden="true">
-  <defs>
-    <linearGradient id="day-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#e8f2ff"/>
-      <stop offset="45%" stop-color="#b8d9ff"/>
-      <stop offset="100%" stop-color="#f2f6fa"/>
-    </linearGradient>
-  </defs>
-  <rect width="100%" height="100%" fill="url(#day-bg)"/>
+<svg width="451" height="737" viewBox="0 0 451 737" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="451" height="736.147" fill="url(#paint0_radial_13_882)"/>
+<defs>
+<radialGradient id="paint0_radial_13_882" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(225 736.074) rotate(90) scale(481 1189.29)">
+<stop stop-color="#C1DCEF"/>
+<stop offset="1" stop-color="#41AAFA"/>
+</radialGradient>
+</defs>
 </svg>
