@@ -19,6 +19,20 @@
     return t === "morning" || t === "day" || t === "evening" ? t : "day";
   }
 
+  const RUN_CARD_BG_WASH =
+    "linear-gradient(180deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.22) 100%)";
+
+  function setRunCardBackground(el, whenKey) {
+    const key =
+      whenKey === "morning" || whenKey === "evening" ? whenKey : "day";
+    try {
+      const svgUrl = new URL(`card-bg/${key}.svg`, window.location.href).href;
+      el.style.backgroundImage = `${RUN_CARD_BG_WASH}, url("${svgUrl}")`;
+    } catch (_) {
+      /* opaque origin / invalid base — leave CSS fallback */
+    }
+  }
+
   const els = {
     runForm: document.getElementById("run-form"),
     runDate: document.getElementById("run-date"),
@@ -520,6 +534,7 @@
       const li = document.createElement("li");
       const whenKey = timeOfDayKey(r);
       li.className = `carousel-slide item run-card-tod--${whenKey}`;
+      setRunCardBackground(li, whenKey);
       const dist = r.distance != null ? Number(r.distance) : 0;
       const unit = r.unit === "mi" ? "mi" : "km";
       const dur =
