@@ -537,24 +537,6 @@ body {
   align-items: flex-start;
 }
 
-.runs-carousel .carousel-slide .run-top-indicators {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.runs-carousel .carousel-slide .run-time-icon {
-  color: var(--muted);
-  line-height: 0;
-}
-
-.runs-carousel .carousel-slide .run-time-icon-svg {
-  display: block;
-  width: 22px;
-  height: 22px;
-}
-
 .runs-carousel .carousel-slide .item-title {
   font-size: var(--run-card-title-font-size);
   font-weight: var(--run-card-title-font-weight);

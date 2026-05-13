@@ -12,13 +12,6 @@
     evening: "Evening run",
   };
 
-  /** Replace files in icons/ — see paths in TIME_OF_DAY_ICON_SRC */
-  const TIME_OF_DAY_ICON_SRC = {
-    morning: "icons/morning.svg",
-    day: "icons/day.svg",
-    evening: "icons/evening.svg",
-  };
-
   const els = {
     runForm: document.getElementById("run-form"),
     runDate: document.getElementById("run-date"),
@@ -327,12 +320,6 @@
     els.runDate.value = `${t.getFullYear()}-${z(t.getMonth() + 1)}-${z(t.getDate())}`;
   }
 
-  function timeOfDayIconHtml(kind) {
-    const src = TIME_OF_DAY_ICON_SRC[kind];
-    if (!src) return "";
-    return `<span class="run-time-icon"><img class="run-time-icon-svg" src="${src}" width="22" height="22" alt="" decoding="async" loading="lazy" /></span>`;
-  }
-
   function normalizeRun(raw) {
     return {
       id: raw.id,
@@ -545,7 +532,6 @@
         r.timeOfDay === "evening"
           ? r.timeOfDay
           : "day";
-      const timeIconHtml = timeOfDayIconHtml(tod);
 
       const statsHtml = `
         <div class="run-stats">
@@ -576,9 +562,6 @@
 
       li.innerHTML = `
         <div class="item-header">
-          <div class="run-top-indicators">
-            ${timeIconHtml}
-          </div>
           <h3 class="item-title"></h3>
         </div>
         <p class="item-body run-notes-body" hidden></p>
