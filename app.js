@@ -516,7 +516,7 @@
 
     for (const r of runs) {
       const li = document.createElement("li");
-      li.className = "carousel-slide item";
+      li.className = `carousel-slide item run-card-tod--${tod}`;
       const dist = r.distance != null ? Number(r.distance) : 0;
       const unit = r.unit === "mi" ? "mi" : "km";
       const dur =
