@@ -11,8 +11,7 @@
   --radius: 8px;
   --page-gutter: 40px;
   --page-margin: 40px;
-  --view-max-height: 1024px;
-  --runs-grid-columns: 4;
+  /* Run list: gap between cards (row + column); column count is fixed at 4 in .runs-carousel */
   --runs-grid-gap: 12px;
 
   /*
@@ -64,10 +63,6 @@
 
 html {
   min-height: 100%;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   overflow-x: hidden;
 }
 
@@ -84,12 +79,9 @@ body {
 
 body {
   box-sizing: border-box;
-  height: min(var(--view-max-height), 100dvh);
-  max-height: min(var(--view-max-height), 100dvh);
+  min-height: 100%;
+  margin: 0;
   padding: var(--page-margin);
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 auto;
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
@@ -100,10 +92,6 @@ body {
   padding: 0;
   max-width: 100%;
   box-sizing: border-box;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
   min-width: 0;
   overflow-x: hidden;
 }
@@ -111,10 +99,6 @@ body {
 .header {
   flex-shrink: 0;
   margin-bottom: 20px;
-}
-
-.auth-page {
-  justify-content: flex-start;
 }
 
 .auth-intro-text {
@@ -156,10 +140,6 @@ body {
   background: rgba(23, 23, 23, 0.03);
 }
 
-.auth-main {
-  flex: 1;
-  min-height: 0;
-}
 .auth-page .title {
   font-size: 48px;   /* auth page title */
   font-weight: 450;
@@ -414,24 +394,13 @@ body {
 }
 
 .main-runs {
-  flex: 1;
-  min-height: 0;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
 }
 
 .runs-carousel-viewport {
-  flex: 1;
-  min-height: 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
   margin-inline: calc(-1 * var(--page-gutter));
   padding-inline: var(--page-gutter);
   overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .runs-carousel-viewport[hidden] {
@@ -440,7 +409,9 @@ body {
 
 .runs-carousel {
   display: grid;
-  grid-template-columns: repeat(var(--runs-grid-columns), minmax(0, 1fr));
+  /* Exactly four columns — card 5+ wraps to the next row */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-flow: row;
   gap: var(--runs-grid-gap);
   align-content: start;
   width: 100%;
