@@ -333,17 +333,6 @@
     return `<span class="run-time-icon"><img class="run-time-icon-svg" src="${src}" width="22" height="22" alt="" decoding="async" loading="lazy" /></span>`;
   }
 
-  function normalizeRunFelt(value) {
-    return value === "bad" || value === "good" || value === "neutral"
-      ? value
-      : "neutral";
-  }
-
-  function runFeltDotHtml(value) {
-    const felt = normalizeRunFelt(value);
-    return `<span class="run-felt-dot run-felt-dot--${felt}" aria-hidden="true"></span>`;
-  }
-
   function normalizeRun(raw) {
     return {
       id: raw.id,
@@ -361,7 +350,6 @@
         raw.timeOfDay === "evening"
           ? raw.timeOfDay
           : "day",
-      felt: normalizeRunFelt(raw.felt),
       createdAt: raw.createdAt || Date.now(),
       updatedAt: raw.updatedAt || null,
     };
@@ -376,7 +364,6 @@
       durationMin: row.duration_min,
       notes: row.notes,
       timeOfDay: row.time_of_day,
-      felt: row.felt,
       createdAt: row.created_at ? Date.parse(row.created_at) : Date.now(),
       updatedAt: row.updated_at ? Date.parse(row.updated_at) : null,
     });
@@ -392,7 +379,6 @@
       duration_min: run.durationMin,
       notes: run.notes,
       time_of_day: run.timeOfDay,
-      felt: run.felt,
       created_at: new Date(run.createdAt || Date.now()).toISOString(),
       updated_at: run.updatedAt ? new Date(run.updatedAt).toISOString() : null,
     };
@@ -456,7 +442,6 @@
         durationMin: raw.durationMin,
         notes: raw.notes,
         timeOfDay: raw.timeOfDay,
-        felt: raw.felt,
         createdAt: raw.createdAt || Date.now(),
         updatedAt: raw.updatedAt || null,
       });
@@ -499,11 +484,6 @@
         `input[name="timeOfDay"][value="${tod}"]`
       );
       if (todInput) todInput.checked = true;
-      const felt = normalizeRunFelt(run.felt);
-      const feltInput = els.runForm.querySelector(
-        `input[name="felt"][value="${felt}"]`
-      );
-      if (feltInput) feltInput.checked = true;
     } else {
       els.runForm.reset();
       setDefaultRunDate();
@@ -566,7 +546,6 @@
           ? r.timeOfDay
           : "day";
       const timeIconHtml = timeOfDayIconHtml(tod);
-      const feltDotHtml = runFeltDotHtml(r.felt);
 
       const statsHtml = `
         <div class="run-stats">
@@ -598,7 +577,6 @@
       li.innerHTML = `
         <div class="item-header">
           <div class="run-top-indicators">
-            ${feltDotHtml}
             ${timeIconHtml}
           </div>
           <h3 class="item-title"></h3>
@@ -753,8 +731,6 @@
       ["morning", "day", "evening"].includes(timeOfDaySelected.value)
         ? timeOfDaySelected.value
         : "day";
-    const feltSelected = els.runForm.querySelector('input[name="felt"]:checked');
-    const felt = normalizeRunFelt(feltSelected ? feltSelected.value : null);
 
     if (!date || distance === "") return;
 
@@ -782,7 +758,6 @@
       durationMin: durationMinParsed,
       notes,
       timeOfDay,
-      felt,
       createdAt: editingRunId
         ? (currentRuns.find((r) => r.id === editingRunId)?.createdAt || now)
         : now,

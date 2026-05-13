@@ -21,7 +21,6 @@ create table if not exists public.runs (
   duration_min double precision,
   notes text,
   time_of_day text not null default 'day' check (time_of_day in ('morning', 'day', 'evening')),
-  felt text not null default 'neutral' check (felt in ('bad', 'neutral', 'good')),
   created_at timestamptz not null default now(),
   updated_at timestamptz
 );
@@ -51,6 +50,12 @@ create policy if not exists "runs_delete_own"
   on public.runs
   for delete
   using (auth.uid() = user_id);
+```
+
+If you created this table earlier with a `felt` column, the app no longer reads or writes it. You can leave the column in place or remove it when convenient:
+
+```sql
+alter table public.runs drop column if exists felt;
 ```
 
 ## 3) Add keys to app

@@ -544,25 +544,6 @@ body {
   margin-bottom: 16px;
 }
 
-.runs-carousel .carousel-slide .run-felt-dot {
-  width: 22px;
-  height: 22px;
-  border-radius: 999px;
-  flex-shrink: 0;
-}
-
-.runs-carousel .carousel-slide .run-felt-dot--bad {
-  background: #f3a1c5;
-}
-
-.runs-carousel .carousel-slide .run-felt-dot--neutral {
-  background: #ffef8c;
-}
-
-.runs-carousel .carousel-slide .run-felt-dot--good {
-  background: #91ca8c;
-}
-
 .runs-carousel .carousel-slide .run-time-icon {
   color: var(--muted);
   line-height: 0;
