@@ -12,6 +12,13 @@
     evening: "Evening run",
   };
 
+  /** Hoisted helper — avoids “Cannot access before initialization” if `tod` order drifts. */
+  function timeOfDayKey(run) {
+    if (!run) return "day";
+    const t = run.timeOfDay;
+    return t === "morning" || t === "day" || t === "evening" ? t : "day";
+  }
+
   const els = {
     runForm: document.getElementById("run-form"),
     runDate: document.getElementById("run-date"),
@@ -461,14 +468,9 @@
           ? minutesToHMS(run.durationMin)
           : "";
       els.runNotes.value = run.notes || "";
-      const tod =
-        run.timeOfDay === "morning" ||
-        run.timeOfDay === "day" ||
-        run.timeOfDay === "evening"
-          ? run.timeOfDay
-          : "day";
+      const whenKey = timeOfDayKey(run);
       const todInput = els.runForm.querySelector(
-        `input[name="timeOfDay"][value="${tod}"]`
+        `input[name="timeOfDay"][value="${whenKey}"]`
       );
       if (todInput) todInput.checked = true;
     } else {
@@ -516,13 +518,8 @@
 
     for (const r of runs) {
       const li = document.createElement("li");
-      const tod =
-        r.timeOfDay === "morning" ||
-        r.timeOfDay === "day" ||
-        r.timeOfDay === "evening"
-          ? r.timeOfDay
-          : "day";
-      li.className = `carousel-slide item run-card-tod--${tod}`;
+      const whenKey = timeOfDayKey(r);
+      li.className = `carousel-slide item run-card-tod--${whenKey}`;
       const dist = r.distance != null ? Number(r.distance) : 0;
       const unit = r.unit === "mi" ? "mi" : "km";
       const dur =
@@ -551,8 +548,8 @@
 
       li.setAttribute("role", "button");
       li.setAttribute("tabindex", "0");
-      const todPhrase = TIME_OF_DAY_LABELS[tod]
-        ? `, ${TIME_OF_DAY_LABELS[tod]}`
+      const todPhrase = TIME_OF_DAY_LABELS[whenKey]
+        ? `, ${TIME_OF_DAY_LABELS[whenKey]}`
         : "";
       li.setAttribute(
         "aria-label",
