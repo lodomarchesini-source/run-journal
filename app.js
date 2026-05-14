@@ -510,8 +510,8 @@
     const runs = [...currentRuns].sort((a, b) => {
       const da = a.date || "";
       const db = b.date || "";
-      if (da !== db) return da.localeCompare(db);
-      return (a.createdAt || 0) - (b.createdAt || 0);
+      if (da !== db) return db.localeCompare(da);
+      return (b.createdAt || 0) - (a.createdAt || 0);
     });
 
     if (els.carouselViewport) {
