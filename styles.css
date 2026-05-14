@@ -494,12 +494,18 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 0;
 }
 
+/* Run-card date — matches design spec (Inter Semi Bold 24 / line 14 / 0% tracking, left) */
 .runs-carousel .carousel-slide .item-title {
-  font-size: var(--run-card-title-font-size);
-  font-weight: var(--run-card-title-font-weight);
-  line-height: 1.25;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 14px;
+  letter-spacing: 0;
+  text-align: left;
 }
 
 .runs-carousel .carousel-slide .run-stats {
@@ -563,11 +569,15 @@ body {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  margin: 8px 0 0;
+  margin: 0;
   padding-right: 2.4px;
   font-size: var(--run-card-notes-font-size);
   line-height: 1.45;
   -webkit-overflow-scrolling: touch;
+}
+
+.runs-carousel .carousel-slide .run-notes-body:not([hidden]) {
+  margin-top: 24px;
 }
 
 .runs-carousel .carousel-slide .run-notes-body[hidden] {
