@@ -33,6 +33,7 @@
     runCancel: document.getElementById("run-cancel"),
     runDelete: document.getElementById("run-delete"),
     runsList: document.getElementById("runs-list"),
+    newRunEntry: document.getElementById("new-run-entry"),
     carouselViewport: document.querySelector(".runs-carousel-viewport"),
     totalRuns: document.getElementById("total-runs"),
     runsTimeBreakdown: document.getElementById("runs-time-breakdown"),
@@ -596,41 +597,11 @@
       els.runsList.appendChild(li);
     }
 
-    const addLi = document.createElement("li");
-    addLi.className = "carousel-slide carousel-slide--new";
-    if (currentUser) {
-      addLi.setAttribute("role", "button");
-      addLi.setAttribute("tabindex", "0");
-      addLi.setAttribute("aria-label", "New run");
-      addLi.innerHTML = `
-        <div class="carousel-slide-new-inner">
-          <span class="carousel-slide-new-plus" aria-hidden="true">+</span>
-          <span class="carousel-slide-new-text">New run</span>
-        </div>
-      `;
-
-      function handleNewCard(e) {
-        if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") {
-          return;
-        }
-        if (e.type === "keydown") {
-          e.preventDefault();
-        }
-        openRunModal(null);
-      }
-
-      addLi.addEventListener("click", handleNewCard);
-      addLi.addEventListener("keydown", handleNewCard);
-    } else {
-      addLi.setAttribute("aria-label", "Sign in required");
-      addLi.innerHTML = `
-        <div class="carousel-slide-new-inner">
-          <span class="carousel-slide-new-text">Sign in to add runs</span>
-        </div>
-      `;
+    if (els.newRunEntry) {
+      els.newRunEntry.hidden = !currentUser;
+      els.newRunEntry.disabled = !currentUser;
     }
 
-    els.runsList.appendChild(addLi);
     updateTotals(runs);
   }
 
@@ -674,6 +645,16 @@
       return;
     }
     window.location.href = "auth.html";
+  }
+
+  if (els.newRunEntry) {
+    els.newRunEntry.addEventListener("click", () => {
+      if (!currentUser) {
+        setAuthStatus("Sign in to add runs", "error");
+        return;
+      }
+      openRunModal(null);
+    });
   }
 
   els.modalBackdrop.addEventListener("click", closeRunModal);
