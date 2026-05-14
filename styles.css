@@ -405,32 +405,9 @@ body {
   padding-top: 48px;
 }
 
-/* Pill “+ New run” — 48px below totals (main padding-top) and 48px above card grid */
+/* + New run — same base as auth “Start writing” (.btn.btn-primary.auth-entry-btn--start); spacing only here */
 .new-run-entry-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   margin-bottom: 48px;
-  padding: 12px 22px;
-  border: none;
-  border-radius: 999px;
-  background: var(--accent);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 600;
-  font-family: inherit;
-  line-height: 1.2;
-  cursor: pointer;
-  box-sizing: border-box;
-}
-
-.new-run-entry-btn:hover:not(:disabled) {
-  background: var(--accent-hover);
-}
-
-.new-run-entry-btn:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
 }
 
 .new-run-entry-btn:disabled {
