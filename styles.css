@@ -686,13 +686,10 @@ body.modal-open {
 .run-entry-meta-field {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  flex: 0 0 auto;
+  width: max-content;
   min-width: 0;
-  overflow: visible;
-}
-
-.run-entry-meta-field--distance {
-  flex-shrink: 0;
-  overflow: visible;
 }
 
 .run-entry-meta-input {
@@ -702,26 +699,14 @@ body.modal-open {
   margin: 0;
   font-size: var(--run-entry-meta-value-font-size);
   font-weight: 600;
-  line-height: 1.35;
-  min-height: calc(var(--run-entry-meta-value-font-size) * 1.35);
-  height: auto;
-  overflow: visible;
+  line-height: 1.5;
   color: var(--neutral-1);
   font-variant-numeric: tabular-nums;
   outline: none;
   width: auto;
-  min-width: 8ch;
-}
-
-.run-entry-meta-input[type="number"] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-.run-entry-meta-input[type="number"]::-webkit-inner-spin-button,
-.run-entry-meta-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  min-width: 0;
+  height: auto;
+  overflow: visible;
 }
 
 .run-entry-meta-input::placeholder {
@@ -740,29 +725,19 @@ body.modal-open {
 }
 
 .run-entry-meta-input--distance {
-  width: auto;
-  min-width: 7ch;
-  max-width: none;
-  flex: 0 1 auto;
-  line-height: normal;
-  min-height: 40px;
-  height: auto;
-  padding: 4px 0;
-  box-sizing: content-box;
+  width: 6ch;
 }
 
 .run-entry-distance {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: 8px;
-  overflow: visible;
-  min-height: 40px;
 }
 
 .run-entry-distance-unit {
   font-size: var(--run-entry-meta-value-font-size);
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.5;
   letter-spacing: 0.02em;
   color: var(--neutral-1);
   font-variant-numeric: tabular-nums;
@@ -783,19 +758,17 @@ body.modal-open {
   border: none;
   background: transparent;
   margin: 0;
-  padding: 0 20px 0 0;
+  padding: 0 18px 0 0;
   font-size: var(--run-entry-meta-value-font-size);
   font-weight: 600;
-  line-height: 1.25;
-  min-height: 30px;
-  height: auto;
+  line-height: 1.5;
   color: var(--neutral-1);
   cursor: pointer;
   outline: none;
-  overflow: visible;
   appearance: none;
   -webkit-appearance: none;
-  min-width: 9ch;
+  width: auto;
+  min-width: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23737373' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.15em center;
@@ -961,44 +934,26 @@ select:focus {
 .run-entry-form .run-entry-distance-unit {
   font-size: var(--run-entry-meta-value-font-size);
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.5;
   color: var(--neutral-1);
 }
 
 .run-entry-form .run-entry-meta-input {
   padding: 0;
-  min-height: calc(var(--run-entry-meta-value-font-size) * 1.35);
-  height: auto;
-  overflow: visible;
 }
 
 .run-entry-form .run-entry-meta-input--distance {
-  width: auto;
-  min-width: 7ch;
-  max-width: none;
-  line-height: normal;
-  min-height: 40px;
-  height: auto;
-  padding: 4px 0;
-  box-sizing: content-box;
-  overflow: visible;
-}
-
-.run-entry-form .run-entry-distance {
-  overflow: visible;
-  min-height: 40px;
-  align-items: center;
+  width: 6ch;
 }
 
 .run-entry-form .run-entry-meta-select {
-  padding: 0 20px 0 0;
-  min-height: 30px;
-  height: auto;
-  overflow: visible;
+  padding: 0 18px 0 0;
+  width: auto;
+  min-width: 0;
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23737373' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.15em center;
+  background-position: right center;
   background-size: 12px 8px;
 }
 
