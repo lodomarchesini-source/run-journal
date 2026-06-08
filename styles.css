@@ -618,6 +618,30 @@ body {
     scroll-snap-align: start;
     aspect-ratio: 9 / 16;
   }
+
+  .header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .auth-signout {
+    margin-left: 0;
+  }
+
+  .run-entry-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .run-entry-header-actions {
+    width: 100%;
+  }
 }
 
 /* Full-screen run entry — writing-first layout */
