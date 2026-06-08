@@ -13,6 +13,7 @@
   --page-margin: 40px;
   /* Run list: gap between cards (row + column); column count is fixed at 4 in .runs-carousel */
   --runs-grid-gap: 12px;
+  --run-card-radius: 24px;
   --runs-carousel-breakpoint: 900px;
   /* One full card fits in the scrollport — no edge cropping */
   --run-card-carousel-width: min(300px, calc(100vw - 2 * var(--page-gutter)));
@@ -463,7 +464,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   padding: 0;
-  border-radius: calc(var(--radius) + 2px);
+  border-radius: var(--run-card-radius);
   cursor: pointer;
   user-select: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -582,7 +583,7 @@ body {
   :root {
     --page-gutter: 24px;
     --page-margin: 24px;
-    --run-entry-notes-font-size: 18px;
+    --run-entry-notes-font-size: 24px;
   }
 
   .runs-carousel-viewport {
@@ -1165,7 +1166,7 @@ select:focus {
   position: relative;
   overflow: hidden;
   border: none;
-  border-radius: var(--radius);
+  border-radius: var(--run-card-radius);
   padding: 40px;
   background-color: var(--surface);
 }
