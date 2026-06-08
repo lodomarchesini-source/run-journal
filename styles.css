@@ -51,7 +51,7 @@
   --run-entry-meta-value-font-size: 24px;
 
   /* Run entry — notes wrap at ~66 characters per line for readability */
-  --run-entry-readable-line-ch: 66;
+  --run-entry-readable-line-ch: 75;
 
   /* Top of page — the "Runs" heading in the header (index.html h1.title) */
   --page-title-font-size: 80px;
