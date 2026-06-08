@@ -702,23 +702,27 @@ body.modal-open {
 .run-entry-header {
   flex-shrink: 0;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: flex-start;
   gap: 24px;
   margin-bottom: 48px;
 }
 
 .run-entry-title {
   margin: 0;
+  margin-right: auto;
   font-size: 48px;
   font-weight: 450;
   letter-spacing: -0.03em;
   color: var(--neutral-1);
+  text-align: left;
+  align-self: flex-start;
 }
 
 .run-entry-header-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 12px;
   flex-shrink: 0;
 }
