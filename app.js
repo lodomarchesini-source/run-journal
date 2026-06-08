@@ -28,6 +28,7 @@
     runDate: document.getElementById("run-date"),
     runDistance: document.getElementById("run-distance"),
     runDuration: document.getElementById("run-duration"),
+    runTimeOfDay: document.getElementById("run-time-of-day"),
     runNotes: document.getElementById("run-notes"),
     runCancel: document.getElementById("run-cancel"),
     runDelete: document.getElementById("run-delete"),
@@ -480,11 +481,9 @@
           ? minutesToHMS(run.durationMin)
           : "";
       els.runNotes.value = run.notes || "";
-      const whenKey = timeOfDayKey(run);
-      const todInput = els.runForm.querySelector(
-        `input[name="timeOfDay"][value="${whenKey}"]`
-      );
-      if (todInput) todInput.checked = true;
+      if (els.runTimeOfDay) {
+        els.runTimeOfDay.value = timeOfDayKey(run);
+      }
     } else {
       els.runForm.reset();
       setDefaultRunDate();
@@ -697,14 +696,10 @@
     const unit = "km";
     const durationRaw = els.runDuration.value.trim();
     const notes = els.runNotes.value.trim();
-    const timeOfDaySelected = els.runForm.querySelector(
-      'input[name="timeOfDay"]:checked'
-    );
-    const timeOfDay =
-      timeOfDaySelected &&
-      ["morning", "day", "evening"].includes(timeOfDaySelected.value)
-        ? timeOfDaySelected.value
-        : "day";
+    const timeOfDayRaw = els.runTimeOfDay ? els.runTimeOfDay.value : "day";
+    const timeOfDay = ["morning", "day", "evening"].includes(timeOfDayRaw)
+      ? timeOfDayRaw
+      : "day";
 
     if (!date || distance === "") return;
 

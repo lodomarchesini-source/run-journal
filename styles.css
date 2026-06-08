@@ -664,8 +664,8 @@ body.modal-open {
 .run-entry-meta {
   flex-shrink: 0;
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  flex-wrap: nowrap;
+  align-items: flex-end;
   gap: 48px;
   margin-bottom: 32px;
 }
@@ -746,29 +746,29 @@ body.modal-open {
   cursor: pointer;
 }
 
-.run-entry-when {
-  flex-shrink: 0;
-  margin-bottom: 32px;
-}
-
-.run-entry-when-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.run-entry-when-option {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--muted);
-  cursor: pointer;
-}
-
-.run-entry-when-option:has(input:checked) {
+.run-entry-meta-select {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
   color: var(--neutral-1);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 9ch;
+  padding-right: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23737373' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 12px 8px;
+}
+
+.run-entry-meta-select:focus {
+  outline: none;
 }
 
 .run-entry-write {
@@ -788,7 +788,7 @@ body.modal-open {
   background: transparent;
   resize: none;
   font-family: inherit;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 400;
   line-height: 1.55;
   color: var(--neutral-1);
@@ -913,17 +913,34 @@ select:focus {
 
 /* Run entry — borderless fields override global form chrome */
 .run-entry-form .run-entry-meta-input,
+.run-entry-form .run-entry-meta-select,
 .run-entry-form .run-entry-notes {
   border: none;
   border-radius: 0;
-  background: transparent;
+  background-color: transparent;
   padding: 0;
 }
 
+.run-entry-form .run-entry-meta-select {
+  padding-right: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23737373' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 12px 8px;
+}
+
 .run-entry-form .run-entry-meta-input:focus,
+.run-entry-form .run-entry-meta-select:focus,
 .run-entry-form .run-entry-notes:focus {
   outline: none;
   border: none;
+}
+
+@media (max-width: 720px) {
+  .run-entry-meta {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
 }
 
 .run-entry-form .run-entry-notes {
