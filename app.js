@@ -464,8 +464,17 @@
 
     if (run && editingRunId) {
       els.runDate.value = run.date || "";
-      els.runDistance.value = run.distance != null ? run.distance : "";
-      els.runUnit.value = run.unit === "mi" ? "mi" : "km";
+      const dist =
+        run.distance != null && run.distance !== ""
+          ? Number(run.distance)
+          : null;
+      const storedUnit = run.unit === "mi" ? "mi" : "km";
+      els.runDistance.value =
+        dist != null && Number.isFinite(dist)
+          ? storedUnit === "mi"
+            ? toKm(dist, "mi")
+            : dist
+          : "";
       els.runDuration.value =
         run.durationMin != null && Number(run.durationMin) > 0
           ? minutesToHMS(run.durationMin)
@@ -685,7 +694,7 @@
     }
     const date = els.runDate.value;
     const distance = els.runDistance.value;
-    const unit = els.runUnit.value;
+    const unit = "km";
     const durationRaw = els.runDuration.value.trim();
     const notes = els.runNotes.value.trim();
     const timeOfDaySelected = els.runForm.querySelector(

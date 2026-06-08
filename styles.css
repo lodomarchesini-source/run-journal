@@ -913,7 +913,6 @@ select:focus {
 
 /* Run entry — borderless fields override global form chrome */
 .run-entry-form .run-entry-meta-input,
-.run-entry-form .run-entry-unit,
 .run-entry-form .run-entry-notes {
   border: none;
   border-radius: 0;
@@ -922,7 +921,6 @@ select:focus {
 }
 
 .run-entry-form .run-entry-meta-input:focus,
-.run-entry-form .run-entry-unit:focus,
 .run-entry-form .run-entry-notes:focus {
   outline: none;
   border: none;
