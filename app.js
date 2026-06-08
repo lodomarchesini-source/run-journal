@@ -328,6 +328,12 @@
     return Number.isFinite(n) && n >= 0 ? n : NaN;
   }
 
+  function resizeRunNotesTextarea() {
+    if (!els.runNotes) return;
+    els.runNotes.style.height = "auto";
+    els.runNotes.style.height = `${els.runNotes.scrollHeight}px`;
+  }
+
   function isModalOpen() {
     return els.modal.classList.contains("is-open");
   }
@@ -501,6 +507,7 @@
     document.body.classList.add("modal-open");
 
     requestAnimationFrame(() => {
+      resizeRunNotesTextarea();
       if (els.runNotes) els.runNotes.focus();
     });
   }
@@ -672,6 +679,10 @@
 
   els.modalBackdrop.addEventListener("click", closeRunModal);
   els.runCancel.addEventListener("click", closeRunModal);
+
+  if (els.runNotes) {
+    els.runNotes.addEventListener("input", resizeRunNotesTextarea);
+  }
 
   els.runDelete.addEventListener("click", async () => {
     if (!editingRunId) return;
