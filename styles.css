@@ -50,6 +50,9 @@
   /* Run entry — date, time, distance, when dropdown (one size for all) */
   --run-entry-meta-value-font-size: 24px;
 
+  /* Run entry — notes wrap at ~66 characters per line for readability */
+  --run-entry-readable-line-ch: 66;
+
   /* Top of page — the "Runs" heading in the header (index.html h1.title) */
   --page-title-font-size: 80px;
 
@@ -772,13 +775,15 @@ body.modal-open {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%;
+  width: min(100%, calc(var(--run-entry-readable-line-ch) * 1ch));
+  max-width: calc(var(--run-entry-readable-line-ch) * 1ch);
   min-width: 0;
 }
 
 .run-entry-notes {
   display: block;
   width: 100%;
+  max-width: 100%;
   min-width: 0;
   min-height: 0;
   height: auto;
@@ -797,6 +802,9 @@ body.modal-open {
   line-height: 1.55;
   color: var(--neutral-1);
   outline: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
 }
 
 .run-entry-notes::placeholder {
