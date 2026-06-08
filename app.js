@@ -330,8 +330,19 @@
 
   function resizeRunNotesTextarea() {
     if (!els.runNotes) return;
-    els.runNotes.style.height = "auto";
-    els.runNotes.style.height = `${els.runNotes.scrollHeight}px`;
+    const ta = els.runNotes;
+    ta.style.height = "0px";
+    const lineHeight =
+      parseFloat(getComputedStyle(ta).lineHeight) ||
+      parseFloat(getComputedStyle(ta).fontSize) * 1.55;
+    const minH = Number.isFinite(lineHeight) ? Math.ceil(lineHeight) : 44;
+    const next = Math.max(ta.scrollHeight, minH);
+    ta.style.height = `${next}px`;
+  }
+
+  function scheduleRunNotesResize() {
+    resizeRunNotesTextarea();
+    requestAnimationFrame(resizeRunNotesTextarea);
   }
 
   function isModalOpen() {
@@ -507,7 +518,7 @@
     document.body.classList.add("modal-open");
 
     requestAnimationFrame(() => {
-      resizeRunNotesTextarea();
+      scheduleRunNotesResize();
       if (els.runNotes) els.runNotes.focus();
     });
   }
@@ -681,7 +692,11 @@
   els.runCancel.addEventListener("click", closeRunModal);
 
   if (els.runNotes) {
-    els.runNotes.addEventListener("input", resizeRunNotesTextarea);
+    els.runNotes.addEventListener("input", scheduleRunNotesResize);
+    els.runNotes.addEventListener("paste", () => {
+      requestAnimationFrame(scheduleRunNotesResize);
+    });
+    els.runNotes.addEventListener("cut", scheduleRunNotesResize);
   }
 
   els.runDelete.addEventListener("click", async () => {
