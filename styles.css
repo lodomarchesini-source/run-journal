@@ -586,7 +586,20 @@ body {
     --run-entry-notes-font-size: 24px;
   }
 
+  .journal-page {
+    overflow-x: visible;
+  }
+
+  .main-runs {
+    overflow-x: visible;
+  }
+
+  /* Full-bleed scrollport so cards aren’t clipped by page gutters */
   .runs-carousel-viewport {
+    width: 100vw;
+    max-width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: 0;
     overflow-x: auto;
     overflow-y: visible;
     -webkit-overflow-scrolling: touch;
@@ -607,7 +620,8 @@ body {
     gap: var(--runs-grid-gap);
     width: max-content;
     max-width: none;
-    padding-inline-end: var(--page-gutter);
+    padding-inline: var(--page-gutter);
+    box-sizing: border-box;
   }
 
   .runs-carousel .carousel-slide {
@@ -617,6 +631,7 @@ body {
     max-width: var(--run-card-carousel-width);
     height: auto;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
     aspect-ratio: 9 / 16;
   }
 
