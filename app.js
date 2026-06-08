@@ -321,6 +321,13 @@
     return NaN;
   }
 
+  function parseDistanceKm(raw) {
+    const str = String(raw).trim().replace(",", ".");
+    if (!str) return NaN;
+    const n = Number(str);
+    return Number.isFinite(n) && n >= 0 ? n : NaN;
+  }
+
   function isModalOpen() {
     return els.modal.classList.contains("is-open");
   }
@@ -692,7 +699,8 @@
       return;
     }
     const date = els.runDate.value;
-    const distance = els.runDistance.value;
+    const distanceRaw = els.runDistance.value;
+    const distanceKm = parseDistanceKm(distanceRaw);
     const unit = "km";
     const durationRaw = els.runDuration.value.trim();
     const notes = els.runNotes.value.trim();
@@ -701,7 +709,11 @@
       ? timeOfDayRaw
       : "day";
 
-    if (!date || distance === "") return;
+    if (!date || distanceRaw.trim() === "") return;
+    if (Number.isNaN(distanceKm)) {
+      alert("Enter distance as a number in km (e.g. 5 or 16.01).");
+      return;
+    }
 
     let durationMinParsed = null;
     if (durationRaw !== "") {
@@ -722,7 +734,7 @@
     const payload = normalizeRun({
       id: editingRunId || uid(),
       date,
-      distance: Number(distance),
+      distance: distanceKm,
       unit,
       durationMin: durationMinParsed,
       notes,

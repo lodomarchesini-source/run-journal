@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260608f" />
+    <link rel="stylesheet" href="styles.css?v=20260608g" />
   </head>
   <body>
     <div class="page journal-page">
@@ -139,12 +139,13 @@
               <span class="run-entry-meta-label">Distance</span>
               <span class="run-entry-distance">
                 <input
-                  type="number"
+                  type="text"
                   name="distance"
                   id="run-distance"
                   class="run-entry-meta-input run-entry-meta-input--distance"
-                  min="0"
-                  step="any"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  spellcheck="false"
                   placeholder="0"
                   required
                 />
@@ -189,6 +190,6 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="app.js?v=20260608c"></script>
+    <script src="app.js?v=20260608g"></script>
   </body>
 </html>

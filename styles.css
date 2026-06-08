@@ -687,6 +687,12 @@ body.modal-open {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  overflow: visible;
+}
+
+.run-entry-meta-field--distance {
+  flex-shrink: 0;
+  overflow: visible;
 }
 
 .run-entry-meta-input {
@@ -735,17 +741,22 @@ body.modal-open {
 
 .run-entry-meta-input--distance {
   width: auto;
-  min-width: 4ch;
-  max-width: 14ch;
-  field-sizing: content;
+  min-width: 7ch;
+  max-width: none;
+  flex: 0 1 auto;
+  line-height: normal;
+  min-height: 40px;
+  height: auto;
+  padding: 4px 0;
+  box-sizing: content-box;
 }
 
 .run-entry-distance {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   overflow: visible;
-  min-height: calc(var(--run-entry-meta-value-font-size) * 1.35);
+  min-height: 40px;
 }
 
 .run-entry-distance-unit {
@@ -963,14 +974,20 @@ select:focus {
 
 .run-entry-form .run-entry-meta-input--distance {
   width: auto;
-  min-width: 4ch;
-  max-width: 14ch;
-  field-sizing: content;
+  min-width: 7ch;
+  max-width: none;
+  line-height: normal;
+  min-height: 40px;
+  height: auto;
+  padding: 4px 0;
+  box-sizing: content-box;
+  overflow: visible;
 }
 
 .run-entry-form .run-entry-distance {
   overflow: visible;
-  min-height: calc(var(--run-entry-meta-value-font-size) * 1.35);
+  min-height: 40px;
+  align-items: center;
 }
 
 .run-entry-form .run-entry-meta-select {
