@@ -14,7 +14,8 @@
   /* Run list: gap between cards (row + column); column count is fixed at 4 in .runs-carousel */
   --runs-grid-gap: 12px;
   --runs-carousel-breakpoint: 900px;
-  --run-card-carousel-width: clamp(200px, 72vw, 300px);
+  /* One full card fits in the scrollport — no edge cropping */
+  --run-card-carousel-width: min(300px, calc(100vw - 2 * var(--page-gutter)));
 
   /*
    * Run card — Distance / Time / Pace row (labels + values)
@@ -577,7 +578,7 @@ body {
 @media (max-width: 900px) {
   .runs-carousel-viewport {
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
@@ -596,12 +597,15 @@ body {
     gap: var(--runs-grid-gap);
     width: max-content;
     max-width: none;
+    padding-inline-end: var(--page-gutter);
   }
 
   .runs-carousel .carousel-slide {
     flex: 0 0 var(--run-card-carousel-width);
     width: var(--run-card-carousel-width);
     min-width: var(--run-card-carousel-width);
+    max-width: var(--run-card-carousel-width);
+    height: auto;
     scroll-snap-align: start;
     aspect-ratio: 9 / 16;
   }
