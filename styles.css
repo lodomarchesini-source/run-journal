@@ -13,6 +13,8 @@
   --page-margin: 40px;
   /* Run list: gap between cards (row + column); column count is fixed at 4 in .runs-carousel */
   --runs-grid-gap: 12px;
+  --runs-carousel-breakpoint: 900px;
+  --run-card-carousel-width: clamp(200px, 72vw, 300px);
 
   /*
    * Run card — Distance / Time / Pace row (labels + values)
@@ -569,6 +571,40 @@ body {
 
 .runs-carousel .carousel-slide .run-notes-body[hidden] {
   display: none !important;
+}
+
+/* Narrow viewports: single-row horizontal carousel, cards keep 9:16 */
+@media (max-width: 900px) {
+  .runs-carousel-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--page-gutter);
+    scrollbar-width: none;
+  }
+
+  .runs-carousel-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .runs-carousel {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    gap: var(--runs-grid-gap);
+    width: max-content;
+    max-width: none;
+  }
+
+  .runs-carousel .carousel-slide {
+    flex: 0 0 var(--run-card-carousel-width);
+    width: var(--run-card-carousel-width);
+    min-width: var(--run-card-carousel-width);
+    scroll-snap-align: start;
+    aspect-ratio: 9 / 16;
+  }
 }
 
 /* Full-screen run entry — writing-first layout */
