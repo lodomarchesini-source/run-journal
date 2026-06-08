@@ -574,8 +574,13 @@ body {
   display: none !important;
 }
 
-/* Narrow viewports: single-row horizontal carousel, cards keep 9:16 */
+/* Narrow viewports: tighter gutters + horizontal carousel */
 @media (max-width: 900px) {
+  :root {
+    --page-gutter: 24px;
+    --page-margin: 24px;
+  }
+
   .runs-carousel-viewport {
     overflow-x: auto;
     overflow-y: visible;
