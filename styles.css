@@ -797,7 +797,7 @@ body.modal-open {
   box-sizing: border-box;
   field-sizing: content;
   font-family: inherit;
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 400;
   line-height: 1.55;
   color: var(--neutral-1);
