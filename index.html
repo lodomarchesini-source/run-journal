@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260515b" />
+    <link rel="stylesheet" href="styles.css?v=20260608" />
   </head>
   <body>
     <div class="page journal-page">
@@ -93,80 +93,98 @@
 
     <div
       id="run-modal"
-      class="modal"
+      class="modal run-entry-modal"
       aria-hidden="true"
       role="presentation"
     >
       <button type="button" class="modal-backdrop" id="modal-backdrop" tabindex="-1" aria-label="Close dialog"></button>
       <div
-        class="modal-panel"
+        class="modal-panel run-entry-panel"
         role="dialog"
         aria-modal="true"
         aria-labelledby="run-modal-title"
       >
-        <div class="modal-header">
-          <h2 id="run-modal-title" class="modal-title">New run</h2>
-          <button type="button" class="modal-close" id="modal-close" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <form id="run-form" class="modal-form">
-          <div class="row">
-            <label class="field">
-              <span class="label">Date</span>
-              <input type="date" name="date" id="run-date" required />
+        <form id="run-form" class="run-entry-form">
+          <header class="run-entry-header">
+            <h2 id="run-modal-title" class="run-entry-title">New run</h2>
+            <div class="run-entry-header-actions">
+              <button type="button" class="btn run-entry-btn-cancel" id="run-cancel">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary run-entry-btn-save">
+                Save
+              </button>
+            </div>
+          </header>
+
+          <div class="run-entry-meta">
+            <label class="run-entry-meta-field">
+              <span class="run-entry-meta-label">Date</span>
+              <input type="date" name="date" id="run-date" class="run-entry-meta-input" required />
             </label>
-            <label class="field grow">
-              <span class="label">Distance</span>
-              <div class="inline">
-                <input type="number" name="distance" id="run-distance" min="0" step="any" placeholder="0" required />
-                <select name="unit" id="run-unit" aria-label="Distance unit">
-                  <option value="km">km</option>
-                  <option value="mi">mi</option>
-                </select>
-              </div>
-            </label>
-            <label class="field duration-field">
-              <span class="label">Time</span>
+            <label class="run-entry-meta-field">
+              <span class="run-entry-meta-label">Time</span>
               <input
                 type="text"
                 name="durationHMS"
                 id="run-duration"
+                class="run-entry-meta-input run-entry-meta-input--time"
                 inputmode="numeric"
                 autocomplete="off"
                 spellcheck="false"
                 placeholder="00:00:00"
-                aria-describedby="duration-hms-hint"
               />
-              <span id="duration-hms-hint" class="field-hint">Hours : minutes : seconds</span>
+            </label>
+            <label class="run-entry-meta-field run-entry-meta-field--distance">
+              <span class="run-entry-meta-label">Distance</span>
+              <span class="run-entry-distance">
+                <input
+                  type="number"
+                  name="distance"
+                  id="run-distance"
+                  class="run-entry-meta-input run-entry-meta-input--distance"
+                  min="0"
+                  step="any"
+                  placeholder="0"
+                  required
+                />
+                <select name="unit" id="run-unit" class="run-entry-unit" aria-label="Distance unit">
+                  <option value="km">km</option>
+                  <option value="mi">mi</option>
+                </select>
+              </span>
             </label>
           </div>
-          <div class="field time-of-day-field" role="group" aria-labelledby="time-of-day-label">
-            <div id="time-of-day-label" class="label">When</div>
-            <div class="time-of-day-options">
-              <label class="radio-label">
+
+          <div class="run-entry-when" role="group" aria-labelledby="time-of-day-label">
+            <span id="time-of-day-label" class="run-entry-meta-label">When</span>
+            <div class="run-entry-when-options">
+              <label class="run-entry-when-option">
                 <input type="radio" name="timeOfDay" value="morning" />
-                Morning run
+                Morning
               </label>
-              <label class="radio-label">
+              <label class="run-entry-when-option">
                 <input type="radio" name="timeOfDay" value="day" checked />
-                Day run
+                Day
               </label>
-              <label class="radio-label">
+              <label class="run-entry-when-option">
                 <input type="radio" name="timeOfDay" value="evening" />
-                Evening run
+                Evening
               </label>
             </div>
           </div>
-          <label class="field">
-            <span class="label">Notes <span class="optional">optional</span></span>
-            <textarea name="notes" id="run-notes" rows="3" placeholder="Route, how it felt…"></textarea>
-          </label>
-          <div class="actions modal-actions">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <button type="button" class="btn btn-ghost" id="run-cancel">Cancel</button>
+
+          <div class="run-entry-write">
+            <textarea
+              name="notes"
+              id="run-notes"
+              class="run-entry-notes"
+              placeholder="Start typing"
+              spellcheck="true"
+            ></textarea>
           </div>
-          <button type="button" class="btn modal-delete" id="run-delete" hidden>
+
+          <button type="button" class="run-entry-delete" id="run-delete" hidden>
             Delete run
           </button>
         </form>
@@ -179,6 +197,6 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="app.js?v=20260515"></script>
+    <script src="app.js?v=20260608"></script>
   </body>
 </html>

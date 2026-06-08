@@ -42,7 +42,6 @@
     modal: document.getElementById("run-modal"),
     modalTitle: document.getElementById("run-modal-title"),
     modalBackdrop: document.getElementById("modal-backdrop"),
-    modalClose: document.getElementById("modal-close"),
     pageTitle: document.getElementById("page-title"),
     editPageTitle: document.getElementById("edit-page-title"),
     authStatus: document.getElementById("account-email"),
@@ -488,7 +487,7 @@
     document.body.classList.add("modal-open");
 
     requestAnimationFrame(() => {
-      els.runDistance.focus();
+      if (els.runNotes) els.runNotes.focus();
     });
   }
 
@@ -658,7 +657,6 @@
   }
 
   els.modalBackdrop.addEventListener("click", closeRunModal);
-  els.modalClose.addEventListener("click", closeRunModal);
   els.runCancel.addEventListener("click", closeRunModal);
 
   els.runDelete.addEventListener("click", async () => {
