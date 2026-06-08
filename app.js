@@ -27,7 +27,6 @@
     runForm: document.getElementById("run-form"),
     runDate: document.getElementById("run-date"),
     runDistance: document.getElementById("run-distance"),
-    runUnit: document.getElementById("run-unit"),
     runDuration: document.getElementById("run-duration"),
     runNotes: document.getElementById("run-notes"),
     runCancel: document.getElementById("run-cancel"),

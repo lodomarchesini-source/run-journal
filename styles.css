@@ -726,21 +726,13 @@ body.modal-open {
   gap: 8px;
 }
 
-.run-entry-unit {
-  border: none;
-  background: transparent;
-  padding: 0;
+.run-entry-distance-unit {
   font-size: 24px;
   font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
   color: var(--neutral-1);
-  cursor: pointer;
-  outline: none;
-}
-
-.run-entry-unit:focus {
-  outline: 2px solid rgba(24, 24, 24, 0.2);
-  outline-offset: 2px;
-  border-radius: 4px;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Hide native date picker chrome where possible; keep input usable */
@@ -796,7 +788,7 @@ body.modal-open {
   background: transparent;
   resize: none;
   font-family: inherit;
-  font-size: 40px;
+  font-size: 48px;
   font-weight: 400;
   line-height: 1.55;
   color: var(--neutral-1);
