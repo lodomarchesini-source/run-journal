@@ -53,6 +53,9 @@
   /* Run entry — date, time, distance, when dropdown (one size for all) */
   --run-entry-meta-value-font-size: 24px;
 
+  /* Run entry — notes body (textarea) */
+  --run-entry-notes-font-size: 32px;
+
   /* Run entry — notes wrap at ~66 characters per line for readability */
   --run-entry-readable-line-ch: 75;
 
@@ -579,6 +582,7 @@ body {
   :root {
     --page-gutter: 24px;
     --page-margin: 24px;
+    --run-entry-notes-font-size: 18px;
   }
 
   .runs-carousel-viewport {
@@ -842,7 +846,7 @@ body.modal-open {
   box-sizing: border-box;
   field-sizing: content;
   font-family: inherit;
-  font-size: 32px;
+  font-size: var(--run-entry-notes-font-size);
   font-weight: 400;
   line-height: 1.55;
   color: var(--neutral-1);
