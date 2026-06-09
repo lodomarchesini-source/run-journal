@@ -5,6 +5,7 @@
   // Set these in DevTools (window.RUNJOURNAL_SUPABASE_URL / _ANON_KEY) or edit here.
   const SUPABASE_URL = window.RUNJOURNAL_SUPABASE_URL || "";
   const SUPABASE_ANON_KEY = window.RUNJOURNAL_SUPABASE_ANON_KEY || "";
+  const STRAVA_CLIENT_ID = window.RUNJOURNAL_STRAVA_CLIENT_ID || "";
 
   const TIME_OF_DAY_LABELS = {
     morning: "Morning run",
@@ -46,6 +47,8 @@
     editPageTitle: document.getElementById("edit-page-title"),
     authStatus: document.getElementById("account-email"),
     authSignout: document.getElementById("auth-signout"),
+    stravaConnect: document.getElementById("strava-connect"),
+    stravaPrefillHint: document.getElementById("strava-prefill-hint"),
   };
 
   let editingRunId = null;
@@ -53,6 +56,8 @@
   let supabaseClient = null;
   let currentUser = null;
   let currentRuns = [];
+  let stravaConnection = null;
+  let pendingStravaActivityId = null;
 
   function uid() {
     return crypto.randomUUID
@@ -372,6 +377,10 @@
         raw.timeOfDay === "evening"
           ? raw.timeOfDay
           : "day",
+      stravaActivityId:
+        raw.stravaActivityId != null && raw.stravaActivityId !== ""
+          ? Number(raw.stravaActivityId)
+          : null,
       createdAt: raw.createdAt || Date.now(),
       updatedAt: raw.updatedAt || null,
     };
@@ -386,6 +395,7 @@
       durationMin: row.duration_min,
       notes: row.notes,
       timeOfDay: row.time_of_day,
+      stravaActivityId: row.strava_activity_id,
       createdAt: row.created_at ? Date.parse(row.created_at) : Date.now(),
       updatedAt: row.updated_at ? Date.parse(row.updated_at) : null,
     });
@@ -401,6 +411,7 @@
       duration_min: run.durationMin,
       notes: run.notes,
       time_of_day: run.timeOfDay,
+      strava_activity_id: run.stravaActivityId,
       created_at: new Date(run.createdAt || Date.now()).toISOString(),
       updated_at: run.updatedAt ? new Date(run.updatedAt).toISOString() : null,
     };
@@ -477,6 +488,210 @@
     localStorage.setItem(markerKey, "1");
   }
 
+  // ---------------------------------------------------------------------
+  // Strava
+  // ---------------------------------------------------------------------
+
+  function hasStravaConfig() {
+    return Boolean(STRAVA_CLIENT_ID);
+  }
+
+  function stravaRedirectUri() {
+    return window.location.origin + window.location.pathname;
+  }
+
+  function updateStravaButton() {
+    if (!els.stravaConnect) return;
+    const show = Boolean(currentUser) && hasStravaConfig();
+    els.stravaConnect.hidden = !show;
+    if (!show) return;
+    els.stravaConnect.textContent = stravaConnection
+      ? "Disconnect Strava"
+      : "Connect Strava";
+  }
+
+  async function loadStravaConnection() {
+    if (!supabaseClient || !currentUser) {
+      stravaConnection = null;
+      return;
+    }
+    const { data, error } = await supabaseClient
+      .from("strava_connections")
+      .select("*")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+    if (error) {
+      // Table may not exist yet; treat as not connected.
+      stravaConnection = null;
+      return;
+    }
+    stravaConnection = data || null;
+  }
+
+  async function saveStravaConnection(tokens) {
+    if (!supabaseClient || !currentUser) throw new Error("Not authenticated");
+    const row = {
+      user_id: currentUser.id,
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+      expires_at: tokens.expires_at,
+      athlete_id: tokens.athlete_id != null ? tokens.athlete_id : null,
+      updated_at: new Date().toISOString(),
+    };
+    const { error } = await supabaseClient
+      .from("strava_connections")
+      .upsert(row, { onConflict: "user_id" });
+    if (error) throw error;
+    stravaConnection = row;
+  }
+
+  async function deleteStravaConnection() {
+    if (!supabaseClient || !currentUser) return;
+    const { error } = await supabaseClient
+      .from("strava_connections")
+      .delete()
+      .eq("user_id", currentUser.id);
+    if (error) throw error;
+    stravaConnection = null;
+  }
+
+  function startStravaConnect() {
+    const params = new URLSearchParams({
+      client_id: STRAVA_CLIENT_ID,
+      redirect_uri: stravaRedirectUri(),
+      response_type: "code",
+      approval_prompt: "auto",
+      scope: "activity:read_all",
+    });
+    window.location.href = `https://www.strava.com/oauth/authorize?${params}`;
+  }
+
+  async function requestStravaTokens(body) {
+    const res = await fetch("/api/strava/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || `Strava token request failed (${res.status})`);
+    }
+    return data;
+  }
+
+  async function handleStravaCallback() {
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get("code");
+    const stravaError = url.searchParams.get("error");
+    if (!code && !stravaError) return;
+
+    // Clean the OAuth params from the address bar either way.
+    url.searchParams.delete("code");
+    url.searchParams.delete("scope");
+    url.searchParams.delete("state");
+    url.searchParams.delete("error");
+    window.history.replaceState({}, "", url.pathname + (url.search || ""));
+
+    if (stravaError) {
+      setAuthStatus("Strava connection was cancelled", "error");
+      return;
+    }
+
+    try {
+      const tokens = await requestStravaTokens({ code });
+      await saveStravaConnection(tokens);
+      setAuthStatus("Strava connected", "ok");
+    } catch (err) {
+      setAuthStatus(`Strava connect failed: ${err.message || err}`, "error");
+    }
+  }
+
+  async function getStravaAccessToken() {
+    if (!stravaConnection) return null;
+    const nowSec = Math.floor(Date.now() / 1000);
+    if (Number(stravaConnection.expires_at) > nowSec + 60) {
+      return stravaConnection.access_token;
+    }
+    const tokens = await requestStravaTokens({
+      refresh_token: stravaConnection.refresh_token,
+    });
+    if (tokens.athlete_id == null && stravaConnection.athlete_id != null) {
+      tokens.athlete_id = stravaConnection.athlete_id;
+    }
+    await saveStravaConnection(tokens);
+    return tokens.access_token;
+  }
+
+  /** Most recent Strava run that hasn't already been journaled, or null. */
+  async function fetchLatestUnjournaledStravaRun() {
+    const token = await getStravaAccessToken();
+    if (!token) return null;
+    const res = await fetch(
+      "https://www.strava.com/api/v3/athlete/activities?per_page=10",
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (!res.ok) throw new Error(`Strava activities request failed (${res.status})`);
+    const activities = await res.json();
+    if (!Array.isArray(activities)) return null;
+
+    const journaledIds = new Set(
+      currentRuns
+        .map((r) => r.stravaActivityId)
+        .filter((id) => id != null)
+        .map(Number)
+    );
+
+    return (
+      activities.find((a) => {
+        const isRun = a.type === "Run" || a.sport_type === "Run";
+        return isRun && !journaledIds.has(Number(a.id));
+      }) || null
+    );
+  }
+
+  function timeOfDayFromLocalHour(hour) {
+    if (!Number.isFinite(hour)) return "day";
+    if (hour < 11) return "morning";
+    if (hour < 17) return "day";
+    return "evening";
+  }
+
+  function setStravaPrefillHint(visible) {
+    if (els.stravaPrefillHint) els.stravaPrefillHint.hidden = !visible;
+  }
+
+  function applyStravaPrefill(activity) {
+    // start_date_local looks like "2026-06-08T07:30:00Z" but represents local time.
+    const startLocal = String(activity.start_date_local || "");
+    const date = startLocal.slice(0, 10);
+    const hour = Number(startLocal.slice(11, 13));
+    const km = Math.round((Number(activity.distance) / 1000) * 100) / 100;
+    const seconds = Number(activity.moving_time);
+
+    if (date) els.runDate.value = date;
+    if (Number.isFinite(km) && km > 0) els.runDistance.value = String(km);
+    if (Number.isFinite(seconds) && seconds > 0) {
+      els.runDuration.value = minutesToHMS(seconds / 60);
+    }
+    if (els.runTimeOfDay) {
+      els.runTimeOfDay.value = timeOfDayFromLocalHour(hour);
+    }
+    pendingStravaActivityId = Number(activity.id);
+    setStravaPrefillHint(true);
+  }
+
+  async function prefillNewRunFromStrava() {
+    if (!stravaConnection) return;
+    try {
+      const activity = await fetchLatestUnjournaledStravaRun();
+      // Bail if the modal closed or switched to editing while fetching.
+      if (!activity || !isModalOpen() || editingRunId) return;
+      applyStravaPrefill(activity);
+    } catch (err) {
+      console.warn("Strava prefill failed:", err);
+    }
+  }
+
   function openRunModal(run) {
     if (!currentUser) {
       setAuthStatus("Sign in to add or edit runs", "error");
@@ -513,9 +728,16 @@
       setDefaultRunDate();
     }
 
+    pendingStravaActivityId = null;
+    setStravaPrefillHint(false);
+
     els.modal.classList.add("is-open");
     els.modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
+
+    if (!editingRunId) {
+      prefillNewRunFromStrava();
+    }
 
     requestAnimationFrame(() => {
       scheduleRunNotesResize();
@@ -531,6 +753,8 @@
     els.runForm.reset();
     setDefaultRunDate();
     els.runDelete.hidden = true;
+    pendingStravaActivityId = null;
+    setStravaPrefillHint(false);
     if (focusBeforeModal && typeof focusBeforeModal.focus === "function") {
       focusBeforeModal.focus();
     }
@@ -665,6 +889,9 @@
     } catch (err) {
       setAuthStatus(`Migration failed: ${err.message || err}`, "error");
     }
+    await loadStravaConnection();
+    await handleStravaCallback();
+    updateStravaButton();
     await refreshRuns();
   }
 
@@ -757,6 +984,9 @@
     }
 
     const now = Date.now();
+    const existingRun = editingRunId
+      ? currentRuns.find((r) => r.id === editingRunId)
+      : null;
     const payload = normalizeRun({
       id: editingRunId || uid(),
       date,
@@ -765,9 +995,10 @@
       durationMin: durationMinParsed,
       notes,
       timeOfDay,
-      createdAt: editingRunId
-        ? (currentRuns.find((r) => r.id === editingRunId)?.createdAt || now)
-        : now,
+      stravaActivityId: editingRunId
+        ? existingRun?.stravaActivityId ?? null
+        : pendingStravaActivityId,
+      createdAt: editingRunId ? existingRun?.createdAt || now : now,
       updatedAt: now,
     });
 
@@ -794,6 +1025,27 @@
       editPageTitle().catch((err) => {
         setAuthStatus(`Title update error: ${err.message || err}`, "error");
       });
+    });
+  }
+
+  if (els.stravaConnect) {
+    els.stravaConnect.addEventListener("click", () => {
+      if (!currentUser || !hasStravaConfig()) return;
+      if (stravaConnection) {
+        if (!confirm("Disconnect Strava? New runs will no longer be prefilled.")) {
+          return;
+        }
+        deleteStravaConnection()
+          .then(() => {
+            updateStravaButton();
+            setAuthStatus("Strava disconnected", "muted");
+          })
+          .catch((err) => {
+            setAuthStatus(`Strava disconnect failed: ${err.message || err}`, "error");
+          });
+      } else {
+        startStravaConnect();
+      }
     });
   }
 

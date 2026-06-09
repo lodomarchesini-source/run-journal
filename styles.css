@@ -293,6 +293,25 @@ body {
   margin-left: auto;
 }
 
+/* Strava — connect/disconnect in header, brand orange accent */
+.strava-connect {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: #fc5200;
+  padding: 0 20px;
+  height: 48px;
+}
+
+.strava-connect:hover {
+  background: rgba(252, 82, 0, 0.06);
+  color: #fc5200;
+  border-color: rgba(252, 82, 0, 0.4);
+}
+
+.strava-connect:focus {
+  outline: none;
+}
+
 .auth-signout:hover {
   background: rgba(23, 23, 23, 0.03);
 }
@@ -862,6 +881,15 @@ body.modal-open {
 
 .run-entry-meta-select:focus {
   outline: none;
+}
+
+/* Strava — "Prefilled from your latest Strava run" note above notes area */
+.strava-prefill-hint {
+  margin: -16px 0 24px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #fc5200;
 }
 
 .run-entry-write {

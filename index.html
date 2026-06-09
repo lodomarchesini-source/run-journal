@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260608v" />
+    <link rel="stylesheet" href="styles.css?v=20260609a" />
   </head>
   <body>
     <div class="page journal-page">
@@ -49,6 +49,9 @@
             </button>
           </div>
           <div class="header-actions">
+            <button type="button" id="strava-connect" class="btn btn-ghost strava-connect" hidden>
+              Connect Strava
+            </button>
             <button type="button" id="auth-signout" class="btn btn-ghost auth-signout">
               Sign out
             </button>
@@ -164,6 +167,10 @@
             </label>
           </div>
 
+          <p id="strava-prefill-hint" class="strava-prefill-hint" hidden>
+            Prefilled from your latest Strava run
+          </p>
+
           <div class="run-entry-write">
             <textarea
               name="notes"
@@ -184,9 +191,11 @@
     <script>
       window.RUNJOURNAL_SUPABASE_URL = "https://eivjqwkqkaryymezesow.supabase.co";
       window.RUNJOURNAL_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpdmpxd2txa2FyeXltZXplc293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcwMTQ1MzIsImV4cCI6MjA5MjU5MDUzMn0.CBKzOCsC1wpDRPzdYzR0Bu6LWhB7hvS2BJUJM5Ws7Qg";
+      // Strava Client ID (public). Get it at https://www.strava.com/settings/api
+      window.RUNJOURNAL_STRAVA_CLIENT_ID = "";
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="app.js?v=20260608j"></script>
+    <script src="app.js?v=20260609a"></script>
   </body>
 </html>

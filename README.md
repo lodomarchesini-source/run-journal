@@ -74,3 +74,54 @@ Place that snippet in `index.html` before `app.js`, or hardcode values in `app.j
 ## 4) Local run migration
 
 On first successful login in a browser, old `localStorage` runs are merged once into the signed-in account, then all reads/writes use Supabase.
+
+## 5) Strava integration (optional)
+
+When connected, opening **+ New run** prefills the form with your most recent
+Strava run (date, distance, time, when) — unless that activity was already
+journaled — leaving only the notes to write.
+
+### a) Run the Strava SQL in Supabase
+
+Run the contents of [`supabase-strava.sql`](supabase-strava.sql) in the
+Supabase SQL editor. This creates the `strava_connections` table and adds a
+`strava_activity_id` column to `runs`.
+
+Do this **before** deploying the new app code — saving runs requires the new
+column.
+
+### b) Create a Strava API application
+
+1. Go to [strava.com/settings/api](https://www.strava.com/settings/api) and create an app:
+   - Application name: e.g. `Run Journal`
+   - Category: anything (e.g. "Training")
+   - Website: `https://runnny.vercel.app`
+   - **Authorization Callback Domain**: `runnny.vercel.app` (no `https://`, no path)
+2. Copy the **Client ID** and **Client Secret**.
+
+### c) Configure keys
+
+1. In the Vercel project settings, add environment variables (then redeploy):
+   - `STRAVA_CLIENT_ID` — your Client ID
+   - `STRAVA_CLIENT_SECRET` — your Client Secret
+2. In `index.html`, set the public client ID:
+
+```html
+<script>
+  window.RUNJOURNAL_STRAVA_CLIENT_ID = "YOUR_CLIENT_ID";
+</script>
+```
+
+### d) Connect
+
+On the deployed site, click **Connect Strava** in the header, approve access
+on Strava, and you'll be redirected back. The button switches to
+**Disconnect Strava** once linked.
+
+Notes:
+
+- Tokens are stored per user in `strava_connections` (RLS protected) and
+  refreshed automatically via the `api/strava/token.js` Vercel function.
+- The Connect button only appears when `RUNJOURNAL_STRAVA_CLIENT_ID` is set.
+- The OAuth flow only works on the deployed Vercel domain (the callback
+  domain must match the Strava app settings).
